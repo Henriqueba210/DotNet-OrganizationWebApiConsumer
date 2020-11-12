@@ -10,18 +10,18 @@ namespace Consumer.API.Controllers
 {
     [ApiController]
     [Route("v1/github")]
-    public class GithubApiController : ControllerBase
+    public class GithubOrganizationController : ControllerBase
     {
         private HttpClient client;
 
-        public GithubApiController(HttpClient httpClient)
+        public GithubOrganizationController(HttpClient httpClient)
         {
             client = httpClient;
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Repository>>> Get()
+        public async Task<ActionResult<List<Repository>>> GetOrganizationRepositories()
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
