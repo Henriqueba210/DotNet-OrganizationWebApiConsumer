@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Consumer.API.Controllers
 {
     [ApiController]
-    [Route("v1/github")]
+    [Route("v1/github_organization")]
     public class GithubOrganizationController : ControllerBase
     {
         private HttpClient client;
