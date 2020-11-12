@@ -19,9 +19,9 @@ namespace Consumer.API.Controllers
             client = httpClient;
         }
 
-        [HttpGet]
-        [Route("")]
-        public async Task<ActionResult<List<Repository>>> GetOrganizationRepositories()
+        [HttpPost]
+        [Route("/repositories/")]
+        public async Task<ActionResult<List<Repository>>> GetOrganizationRepositories([FromBody] RepositoryUrl GithubOrganizationLink)
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
@@ -29,7 +29,7 @@ namespace Consumer.API.Controllers
             );
             client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
-            var streamTask = client.GetStreamAsync("https://api.github.com/orgs/dotnet/repos");
+            var streamTask = client.GetStreamAsync(GithubOrganizationLink.Url);
             var repositories = await JsonSerializer.DeserializeAsync<List<Repository>>(await streamTask);
 
             return repositories;
