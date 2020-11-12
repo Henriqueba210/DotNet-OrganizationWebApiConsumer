@@ -20,6 +20,6 @@ namespace Consumer.Api.Models
         public int Watchers { get; set; }
 
         [JsonPropertyName("open_issues")]
-        public string OpenIssues { get; set; }
+        public int OpenIssues { get; set; }
     }
 }
