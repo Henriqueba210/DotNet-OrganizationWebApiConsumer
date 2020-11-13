@@ -4,9 +4,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Consumer.Api;
 using Consumer.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.FeatureManagement;
 
 namespace Consumer.API.Controllers
 {
@@ -16,25 +18,31 @@ namespace Consumer.API.Controllers
     {
         private HttpClient client;
         private IMemoryCache cache;
+        private readonly IFeatureManager featureManager;
 
-        public GithubOrganizationController(HttpClient httpClient, IMemoryCache cache)
+        public GithubOrganizationController(HttpClient httpClient, IMemoryCache cache, IFeatureManager featureManager)
         {
             client = httpClient;
             this.cache = cache;
+            this.featureManager = featureManager;
         }
 
         [HttpGet]
         [Route("/repositories/")]
         public async Task<ActionResult<List<Repository>>> GetOrganizationRepositories(string OrganizationName = "ibm")
         {
-            var cacheEntry = await
-                cache.GetOrCreateAsync(OrganizationName, RepositoryList =>
+            if (await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache)))
+            {
+                return await cache.GetOrCreateAsync(OrganizationName, RepositoryList =>
                 {
                     RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(3);
                     return getRepositories(OrganizationName);
                 });
-
-            return cacheEntry;
+            }
+            else
+            {
+                return await getRepositories(OrganizationName);
+            }
         }
 
 
