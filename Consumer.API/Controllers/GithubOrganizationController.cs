@@ -28,7 +28,7 @@ namespace Consumer.API.Controllers
         }
 
         [HttpGet]
-        [Route("/repositories/")]
+        [Route("/repositories/{OrganizationName}")]
         public async Task<ActionResult<List<Repository>>> GetOrganizationRepositories(string OrganizationName = "ibm")
         {
             if (await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache)))
