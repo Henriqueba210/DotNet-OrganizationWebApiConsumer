@@ -33,18 +33,15 @@ namespace Consumer.API.Controllers
         [Route("/repositories/{OrganizationName}")]
         public async Task<ActionResult<List<GithubRepository>>> GetOrganizationRepositories([FromServices] IGithubService githubRepository, string OrganizationName = "ibm")
         {
-            if (await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache)))
+            if (!await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache)))
             {
-                return await cache.GetOrCreateAsync(OrganizationName, RepositoryList =>
-                {
-                    RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(configuration.GetSection("FeatureManagement").GetValue<double>("CacheExpirationDuration"));
-                    return githubRepository.getOrganizationRepositories(OrganizationName);
-                });
+                cache.Remove(OrganizationName);
             }
-            else
+            return await cache.GetOrCreateAsync(OrganizationName, RepositoryList =>
             {
-                return await githubRepository.getOrganizationRepositories(OrganizationName);
-            }
+                RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(configuration.GetSection("FeatureManagement").GetValue<double>("CacheExpirationDuration"));
+                return githubRepository.getOrganizationRepositories(OrganizationName);
+            });
         }
     }
 }
