@@ -8,6 +8,7 @@ using Consumer.Api;
 using Consumer.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.FeatureManagement;
 
 namespace Consumer.API.Controllers
@@ -19,12 +20,14 @@ namespace Consumer.API.Controllers
         private HttpClient client;
         private IMemoryCache cache;
         private readonly IFeatureManager featureManager;
+        private readonly IConfiguration configuration;
 
-        public GithubOrganizationController(HttpClient httpClient, IMemoryCache cache, IFeatureManager featureManager)
+        public GithubOrganizationController(HttpClient httpClient, IMemoryCache cache, IFeatureManager featureManager, IConfiguration configuration)
         {
             client = httpClient;
             this.cache = cache;
             this.featureManager = featureManager;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -35,7 +38,7 @@ namespace Consumer.API.Controllers
             {
                 return await cache.GetOrCreateAsync(OrganizationName, RepositoryList =>
                 {
-                    RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(3);
+                    RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(configuration.GetSection("FeatureManagement").GetValue<double>("CacheExpirationDuration"));
                     return getRepositories(OrganizationName);
                 });
             }
