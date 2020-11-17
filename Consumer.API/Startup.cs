@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
+using Consumer.Api.Repositories;
 
 namespace Consumer.API
 {
@@ -29,6 +30,7 @@ namespace Consumer.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Consumer.API", Version = "v1" });
             });
             services.AddHttpClient();
+            services.AddTransient<IGithubRepository, Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Consumer.Api;
 using Consumer.Api.Models;
+using Consumer.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -17,14 +18,12 @@ namespace Consumer.API.Controllers
     [Route("v1/github_organization")]
     public class GithubOrganizationController : ControllerBase
     {
-        private HttpClient client;
         private IMemoryCache cache;
         private readonly IFeatureManager featureManager;
         private readonly IConfiguration configuration;
 
-        public GithubOrganizationController(HttpClient httpClient, IMemoryCache cache, IFeatureManager featureManager, IConfiguration configuration)
+        public GithubOrganizationController(IMemoryCache cache, IFeatureManager featureManager, IConfiguration configuration)
         {
-            client = httpClient;
             this.cache = cache;
             this.featureManager = featureManager;
             this.configuration = configuration;
@@ -32,35 +31,20 @@ namespace Consumer.API.Controllers
 
         [HttpGet]
         [Route("/repositories/{OrganizationName}")]
-        public async Task<ActionResult<List<Repository>>> GetOrganizationRepositories(string OrganizationName = "ibm")
+        public async Task<ActionResult<List<GithubRepository>>> GetOrganizationRepositories([FromServices] IGithubRepository githubRepository, string OrganizationName = "ibm")
         {
             if (await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache)))
             {
                 return await cache.GetOrCreateAsync(OrganizationName, RepositoryList =>
                 {
                     RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(configuration.GetSection("FeatureManagement").GetValue<double>("CacheExpirationDuration"));
-                    return getRepositories(OrganizationName);
+                    return githubRepository.getOrganizationRepositories(OrganizationName);
                 });
             }
             else
             {
-                return await getRepositories(OrganizationName);
+                return await githubRepository.getOrganizationRepositories(OrganizationName);
             }
-        }
-
-
-        private async Task<List<Repository>> getRepositories(string OrganizationName)
-        {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json")
-            );
-            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
-
-            string Url = $"https://api.github.com/orgs/{OrganizationName}/repos";
-            var streamTask = client.GetStreamAsync(Url);
-            Console.WriteLine("Created request to server");
-            return await JsonSerializer.DeserializeAsync<List<Repository>>(await streamTask);
         }
     }
 }

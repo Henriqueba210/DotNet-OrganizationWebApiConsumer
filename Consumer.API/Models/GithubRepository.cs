@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Consumer.Api.Models
 {
-    public class Repository
+    public class GithubRepository
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
