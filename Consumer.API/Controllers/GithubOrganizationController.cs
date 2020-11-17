@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Consumer.Api;
 using Consumer.Api.Models;
-using Consumer.Api.Repositories;
+using Consumer.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +31,7 @@ namespace Consumer.API.Controllers
 
         [HttpGet]
         [Route("/repositories/{OrganizationName}")]
-        public async Task<ActionResult<List<GithubRepository>>> GetOrganizationRepositories([FromServices] IGithubRepository githubRepository, string OrganizationName = "ibm")
+        public async Task<ActionResult<List<GithubRepository>>> GetOrganizationRepositories([FromServices] IGithubService githubRepository, string OrganizationName = "ibm")
         {
             if (await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache)))
             {

@@ -5,13 +5,13 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Consumer.Api.Models;
 
-namespace Consumer.Api.Repositories
+namespace Consumer.Api.Services
 {
-    public class Repository : IGithubRepository
+    public class GithubService : IGithubService
     {
         private readonly HttpClient client;
 
-        public Repository(HttpClient client)
+        public GithubService(HttpClient client)
         {
             this.client = client;
         }

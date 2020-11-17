@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Consumer.Api.Models;
 
-namespace Consumer.Api.Repositories
+namespace Consumer.Api.Services
 {
-    public interface IGithubRepository
+    public interface IGithubService
     {
         Task<List<GithubRepository>> getOrganizationRepositories(string OrganizationName);
     }
