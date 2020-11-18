@@ -13,11 +13,11 @@ using System.Net;
 
 namespace Consumer.Tests
 {
-    public class GithubOrganizationControllerTest
+    public class GithubServiceTest
     {
         private GithubService githubService;
 
-        public GithubOrganizationControllerTest()
+        public GithubServiceTest()
         {
             var mockData = this.GetType().Assembly.GetManifestResourceStream("Consumer.Tests.Data.testData.json");
             var mockMessageHandler = new Mock<HttpMessageHandler>();
