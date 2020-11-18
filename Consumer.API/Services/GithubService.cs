@@ -17,15 +17,22 @@ namespace Consumer.Api.Services
         }
         public async Task<List<GithubRepository>> getOrganizationRepositories(string OrganizationName)
         {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json")
-            );
-            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+            try
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json")
+                );
+                client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
-            string Url = $"https://api.github.com/orgs/{OrganizationName}/repos";
-            var streamTask = client.GetStreamAsync(Url);
-            return await JsonSerializer.DeserializeAsync<List<GithubRepository>>(await streamTask);
+                string Url = $"https://api.github.com/orgs/{OrganizationName}/repos";
+                var streamTask = client.GetStreamAsync(Url);
+                return await JsonSerializer.DeserializeAsync<List<GithubRepository>>(await streamTask);
+            }
+            catch
+            {
+                return new List<GithubRepository>();
+            }
         }
     }
 }

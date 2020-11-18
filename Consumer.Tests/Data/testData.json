@@ -1,0 +1,242 @@
+[
+  {
+    "name": "ibm.github.io",
+    "description": "IBM Open Source at GitHub",
+    "html_url": "https://github.com/IBM/ibm.github.io",
+    "homepage": "https://ibm.github.io",
+    "watchers": 911,
+    "open_issues": 0
+  },
+  {
+    "name": "BluePic",
+    "description": "WARNING: This repository is no longer maintained :warning: This repository will not be updated. The repository will be kept available in read-only mode.",
+    "html_url": "https://github.com/IBM/BluePic",
+    "homepage": "https://developer.ibm.com/code/patterns",
+    "watchers": 322,
+    "open_issues": 27
+  },
+  {
+    "name": "SparkMultiuserBenchmark",
+    "description": "Spark Multiuser Benchmark",
+    "html_url": "https://github.com/IBM/SparkMultiuserBenchmark",
+    "homepage": null,
+    "watchers": 5,
+    "open_issues": 1
+  },
+  {
+    "name": "owplan",
+    "description": "Plan your next conference schedule with an OpenWhisk recommendation bot: Conference Plan Bot",
+    "html_url": "https://github.com/IBM/owplan",
+    "homepage": null,
+    "watchers": 4,
+    "open_issues": 3
+  },
+  {
+    "name": "otc-slack-broker",
+    "description": "OTC Slack Broker",
+    "html_url": "https://github.com/IBM/otc-slack-broker",
+    "homepage": null,
+    "watchers": 2,
+    "open_issues": 0
+  },
+  {
+    "name": "otc-pagerduty-broker",
+    "description": "OTC Pager Duty Broker",
+    "html_url": "https://github.com/IBM/otc-pagerduty-broker",
+    "homepage": null,
+    "watchers": 1,
+    "open_issues": 0
+  },
+  {
+    "name": "otc-saucelabs-broker",
+    "description": "OTC Sauce Labs Broker",
+    "html_url": "https://github.com/IBM/otc-saucelabs-broker",
+    "homepage": null,
+    "watchers": 1,
+    "open_issues": 0
+  },
+  {
+    "name": "node-nano-doc-updater",
+    "description": "Node.js Nano Doc Updater",
+    "html_url": "https://github.com/IBM/node-nano-doc-updater",
+    "homepage": null,
+    "watchers": 2,
+    "open_issues": 3
+  },
+  {
+    "name": "node-log4js-qradar-syslog-appender",
+    "description": "Node.js Log4js syslog appender for QRadar",
+    "html_url": "https://github.com/IBM/node-log4js-qradar-syslog-appender",
+    "homepage": "",
+    "watchers": 3,
+    "open_issues": 2
+  },
+  {
+    "name": "node-swagger-ui-middleware",
+    "description": "Node.js Swagger UI middleware",
+    "html_url": "https://github.com/IBM/node-swagger-ui-middleware",
+    "homepage": null,
+    "watchers": 2,
+    "open_issues": 1
+  },
+  {
+    "name": "xlc-community-edition-dockerfile",
+    "description": "Dockerfile for XLC Community Edition",
+    "html_url": "https://github.com/IBM/xlc-community-edition-dockerfile",
+    "homepage": null,
+    "watchers": 5,
+    "open_issues": 0
+  },
+  {
+    "name": "ibm-cloud-functions-serverless-iot-openfridge",
+    "description": "WARNING: This repository is no longer maintained :warning: This repository will not be updated. The repository will be kept available in read-only mode. See https://developer.ibm.com/code/patterns/ for the latest patterns.",
+    "html_url": "https://github.com/IBM/ibm-cloud-functions-serverless-iot-openfridge",
+    "homepage": "",
+    "watchers": 19,
+    "open_issues": 8
+  },
+  {
+    "name": "CognitiveConcierge",
+    "description": "WARNING: This repository is no longer maintained :warning: This repository will not be updated. The repository will be kept available in read-only mode.",
+    "html_url": "https://github.com/IBM/CognitiveConcierge",
+    "homepage": "https://developer.ibm.com/patterns/build-a-cognitive-recommendation-app-with-swift/",
+    "watchers": 97,
+    "open_issues": 0
+  },
+  {
+    "name": "power-up",
+    "description": "Automated bare metal deployment of OpenPOWER and x86 server clusters",
+    "html_url": "https://github.com/IBM/power-up",
+    "homepage": "",
+    "watchers": 11,
+    "open_issues": 0
+  },
+  {
+    "name": "message-catalog-manager",
+    "description": "message-catalog-manager",
+    "html_url": "https://github.com/IBM/message-catalog-manager",
+    "homepage": null,
+    "watchers": 1,
+    "open_issues": 1
+  },
+  {
+    "name": "node-qradar-audit-logs-middleware",
+    "description": "node-audit-logs-middleware ",
+    "html_url": "https://github.com/IBM/node-qradar-audit-logs-middleware",
+    "homepage": null,
+    "watchers": 1,
+    "open_issues": 3
+  },
+  {
+    "name": "ibm-cloud-functions-serverless-ocr-openchecks",
+    "description": "Serverless bank check deposit processing with object storage and optical character recognition using Apache OpenWhisk powered by IBM Cloud Functions. See the Tech Talk replay for a demo.",
+    "html_url": "https://github.com/IBM/ibm-cloud-functions-serverless-ocr-openchecks",
+    "homepage": "https://developer.ibm.com/code/patterns/automatically-scale-to-handle-peaks-in-banking-transaction-demand/",
+    "watchers": 40,
+    "open_issues": 9
+  },
+  {
+    "name": "swift-enterprise-demo",
+    "description": "WARNING: This repository is no longer maintained :warning: This repository will not be updated. The repository will be kept available in read-only mode.",
+    "html_url": "https://github.com/IBM/swift-enterprise-demo",
+    "homepage": "https://developer.ibm.com/patterns/build-an-enterprise-swift-app-using-services/",
+    "watchers": 8,
+    "open_issues": 0
+  },
+  {
+    "name": "pyxcli",
+    "description": "IBM Python XCLI Client",
+    "html_url": "https://github.com/IBM/pyxcli",
+    "homepage": "",
+    "watchers": 15,
+    "open_issues": 5
+  },
+  {
+    "name": "watson-murder-mystery",
+    "description": "Watson Conversation murder mystery",
+    "html_url": "https://github.com/IBM/watson-murder-mystery",
+    "homepage": "https://bluedo2.mybluemix.net/",
+    "watchers": 0,
+    "open_issues": 1
+  },
+  {
+    "name": "logmet-client-njs",
+    "description": "logmet-client-njs",
+    "html_url": "https://github.com/IBM/logmet-client-njs",
+    "homepage": "",
+    "watchers": 1,
+    "open_issues": 2
+  },
+  {
+    "name": "flocker-driver",
+    "description": "IBM Storage Plug-in for Flocker",
+    "html_url": "https://github.com/IBM/flocker-driver",
+    "homepage": "",
+    "watchers": 4,
+    "open_issues": 2
+  },
+  {
+    "name": "node-i18n-utilities",
+    "description": "node-i18n-utilities",
+    "html_url": "https://github.com/IBM/node-i18n-utilities",
+    "homepage": null,
+    "watchers": 4,
+    "open_issues": 2
+  },
+  {
+    "name": "watson-streaming-stt",
+    "description": "Example of using Watson's Streaming Speech to Text websockets interface for real time transcription. Written in Python. WARNING: This repository is no longer maintained ⚠️ This repository will not be updated. The repository will be kept available in read-only mode.",
+    "html_url": "https://github.com/IBM/watson-streaming-stt",
+    "homepage": "",
+    "watchers": 21,
+    "open_issues": 0
+  },
+  {
+    "name": "ibm-cloud-functions-data-processing-message-hub",
+    "description": "Create a serverless, event-driven application with Apache OpenWhisk on IBM Cloud Functions that executes code in response to messages or to handle streams of data records from Apache Kafka or IBM Message Hub.",
+    "html_url": "https://github.com/IBM/ibm-cloud-functions-data-processing-message-hub",
+    "homepage": "https://developer.ibm.com/patterns/respond-messages-handle-streams/",
+    "watchers": 20,
+    "open_issues": 5
+  },
+  {
+    "name": "ibm-cloud-functions-data-processing-cloudant",
+    "description": "Create a serverless, event-driven application with Apache OpenWhisk on IBM Cloud Functions that executes code in response to database changes from Apache CouchDB or IBM Cloudant.",
+    "html_url": "https://github.com/IBM/ibm-cloud-functions-data-processing-cloudant",
+    "homepage": "https://developer.ibm.com/code/journey/respond-database-changes/",
+    "watchers": 11,
+    "open_issues": 6
+  },
+  {
+    "name": "ibm-cloud-functions-serverless-apis",
+    "description": "Create a serverless, event-driven application with Apache OpenWhisk on IBM Cloud Functions that executes code in response to HTTP REST API calls.",
+    "html_url": "https://github.com/IBM/ibm-cloud-functions-serverless-apis",
+    "homepage": "https://developer.ibm.com/code/patterns/build-serverless-api-handlers/",
+    "watchers": 27,
+    "open_issues": 8
+  },
+  {
+    "name": "serverless-home-automation",
+    "description": "WARNING: This repository is no longer maintained :warning: This repository will not be updated. The repository will be kept available in read-only mode.",
+    "html_url": "https://github.com/IBM/serverless-home-automation",
+    "homepage": "https://developer.ibm.com/code/patterns/implement-voice-controls-for-serverless-home-automation-hub",
+    "watchers": 38,
+    "open_issues": 3
+  },
+  {
+    "name": "air-traffic-control",
+    "description": "# WARNING: This repository is no longer maintained :warning:  This content is no longer being updated or maintained. The content is provided “as is.” Given the rapid evolution of technology, some content, steps, or illustrations may have changed.",
+    "html_url": "https://github.com/IBM/air-traffic-control",
+    "homepage": "https://developer.ibm.com/code/patterns/cloud-based-air-traffic-control-application",
+    "watchers": 70,
+    "open_issues": 3
+  },
+  {
+    "name": "ibm-cloud-functions-action-trigger-rule",
+    "description": "Simple demo showing Apache OpenWhisk actions, triggers, and rules with IBM Cloud Functions. ",
+    "html_url": "https://github.com/IBM/ibm-cloud-functions-action-trigger-rule",
+    "homepage": "",
+    "watchers": 17,
+    "open_issues": 2
+  }
+]
