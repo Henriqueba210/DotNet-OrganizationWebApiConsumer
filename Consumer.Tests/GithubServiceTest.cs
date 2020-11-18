@@ -2,10 +2,6 @@ using Xunit;
 using Consumer.Api.Services;
 using System.Net.Http;
 using Moq;
-using System.IO;
-using System;
-using System.Reflection;
-using System.Text;
 using Moq.Protected;
 using System.Threading.Tasks;
 using System.Threading;
@@ -15,11 +11,18 @@ namespace Consumer.Tests
 {
     public class GithubServiceTest
     {
-        private GithubService githubService;
+        private GithubService githubService = mockGithubService();
 
-        public GithubServiceTest()
+        [Fact]
+        public async void isOrganizationResponseValid()
         {
-            var mockData = this.GetType().Assembly.GetManifestResourceStream("Consumer.Tests.Data.testData.json");
+            var result = await githubService.getOrganizationRepositories("ibm");
+            Assert.NotEmpty(result);
+        }
+
+        public static GithubService mockGithubService()
+        {
+            var mockData = typeof(GithubServiceTest).Assembly.GetManifestResourceStream("Consumer.Tests.Data.testData.json");
             var mockMessageHandler = new Mock<HttpMessageHandler>();
             mockMessageHandler.Protected()
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
@@ -28,15 +31,7 @@ namespace Consumer.Tests
                 StatusCode = HttpStatusCode.OK,
                 Content = new StreamContent(mockData)
             });
-
-            this.githubService = new GithubService(new HttpClient(mockMessageHandler.Object));
-        }
-
-        [Fact]
-        public async void isOrganizationResponseValid()
-        {
-            var result = await githubService.getOrganizationRepositories("ibm");
-            Assert.NotEmpty(result);
+            return new GithubService(new HttpClient(mockMessageHandler.Object));
         }
     }
 }
