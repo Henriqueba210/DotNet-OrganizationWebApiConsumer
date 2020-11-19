@@ -39,7 +39,7 @@ namespace Consumer.API.Controllers
             }
             return await cache.GetOrCreateAsync(OrganizationName, RepositoryList =>
             {
-                RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(configuration.GetSection("FeatureManagement").GetValue<double>("CacheExpirationDuration"));
+                RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(configuration.GetValue<double>("FeatureManagement:CacheExpirationDuration"));
                 return githubRepository.getOrganizationRepositories(OrganizationName);
             });
         }
