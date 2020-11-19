@@ -6,6 +6,8 @@ using Moq.Protected;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Consumer.Tests
 {
@@ -18,6 +20,16 @@ namespace Consumer.Tests
         {
             var result = await githubService.getOrganizationRepositories("ibm");
             Assert.NotEmpty(result);
+            foreach (var item in result)
+            {
+                Assert.NotEqual(item.Name, "");
+                Assert.NotNull(item.GitHubHomeUrl);
+                Assert.NotNull(item.GitUrl);
+            }
+            Assert.NotNull(result.Any(item => item.Homepage != null));
+            Assert.NotNull(result.Any(item => item.Watchers != 0));
+            Assert.NotNull(result.Any(item => item.OpenIssues != 0));
+            Assert.NotNull(result.Any(item => item.Description != null));
         }
 
         public static GithubService mockGithubService()
