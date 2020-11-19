@@ -32,6 +32,23 @@ namespace Consumer.Tests
             Assert.NotNull(result.Any(item => item.Description != null));
         }
 
+        [Fact]
+        public async void testRequestError()
+        {
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.ServiceUnavailable,
+            });
+            var githubService = new GithubService(new HttpClient(mockMessageHandler.Object));
+
+            await Assert.ThrowsAsync<HttpRequestException>(
+                async () => await githubService.getOrganizationRepositories("ibm")
+            );
+        }
+
         public static GithubService mockGithubService()
         {
             var mockData = typeof(GithubServiceTest).Assembly.GetManifestResourceStream("Consumer.Tests.Data.testData.json");
