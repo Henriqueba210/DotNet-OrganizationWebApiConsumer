@@ -7,9 +7,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
 using Consumer.Api.Services;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Consumer.API
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)
