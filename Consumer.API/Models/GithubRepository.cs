@@ -7,6 +7,7 @@ namespace Consumer.Api.Models
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
         [JsonPropertyName("description")]
         public string Description { get; set; }
 
@@ -21,5 +22,8 @@ namespace Consumer.Api.Models
 
         [JsonPropertyName("open_issues")]
         public int OpenIssues { get; set; }
+
+        [JsonPropertyName("git_url")]
+        public Uri GitUrl { get; set; }
     }
 }
