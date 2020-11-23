@@ -32,13 +32,6 @@ namespace Consumer.Tests
         }
 
         [Fact]
-        public async void AssertGetCallRunsCompletely()
-        {
-            var result = await controller.GetOrganizationRepositories(githubService.Object, "ibm");
-            Assert.NotEmpty(result.Value);
-        }
-
-        [Fact]
         public async void ControllerShouldReturnCachedResponse()
         {
             setupMemoryCacheFlagReturnValue(true);
