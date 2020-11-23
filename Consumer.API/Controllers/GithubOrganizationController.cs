@@ -15,7 +15,7 @@ namespace Consumer.API.Controllers
     [Route("v1/github_organization")]
     public class GithubOrganizationController : ControllerBase
     {
-        private IMemoryCache cache;
+        private readonly IMemoryCache cache;
         private readonly IFeatureManager featureManager;
         private readonly IConfiguration configuration;
 
