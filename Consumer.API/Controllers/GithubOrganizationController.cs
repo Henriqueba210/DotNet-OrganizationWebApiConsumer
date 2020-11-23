@@ -43,7 +43,7 @@ namespace Consumer.API.Controllers
 
         private async Task<bool> isMemoryCachingEnabledAsync()
         {
-            return await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache));
+            return await featureManager.IsEnabledAsync(nameof(Features.MemoryCache));
         }
     }
 }

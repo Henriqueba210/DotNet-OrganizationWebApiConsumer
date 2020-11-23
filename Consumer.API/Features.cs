@@ -1,6 +1,6 @@
 namespace Consumer.Api
 {
-    public enum FeatureFlags
+    public enum Features
     {
         MemoryCache
     }
