@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Consumer.Api;
 using Consumer.Api.Models;
@@ -33,7 +30,7 @@ namespace Consumer.API.Controllers
         [Route("/repositories/{OrganizationName}")]
         public async Task<ActionResult<List<GithubRepository>>> GetOrganizationRepositories([FromServices] IGithubService githubRepository, string OrganizationName = "ibm")
         {
-            if (!await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache)))
+            if (await isMemoryCachingEnabledAsync() == false)
             {
                 cache.Remove(OrganizationName);
             }
@@ -42,6 +39,11 @@ namespace Consumer.API.Controllers
                 RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(configuration.GetValue<double>("FeatureManagement:CacheExpirationDuration"));
                 return githubRepository.getOrganizationRepositories(OrganizationName);
             });
+        }
+
+        private async Task<bool> isMemoryCachingEnabledAsync()
+        {
+            return await featureManager.IsEnabledAsync(nameof(FeatureFlags.MemoryCache));
         }
     }
 }
