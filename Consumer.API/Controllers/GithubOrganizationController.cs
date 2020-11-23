@@ -30,7 +30,7 @@ namespace Consumer.API.Controllers
         [Route("/repositories/{OrganizationName}")]
         public async Task<ActionResult<List<GithubRepository>>> GetOrganizationRepositories([FromServices] IGithubService githubRepository, string OrganizationName = "ibm")
         {
-            if (await isMemoryCachingEnabledAsync() == false)
+            if (!await isMemoryCachingEnabledAsync())
             {
                 cache.Remove(OrganizationName);
             }
