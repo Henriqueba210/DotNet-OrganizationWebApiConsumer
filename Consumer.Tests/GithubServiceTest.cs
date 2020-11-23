@@ -22,7 +22,7 @@ namespace Consumer.Tests
             Assert.NotEmpty(result);
             foreach (var item in result)
             {
-                Assert.NotEqual(item.Name, "");
+                Assert.Empty(item.Name);
                 Assert.NotNull(item.GitHubHomeUrl);
                 Assert.NotNull(item.GitUrl);
             }
@@ -51,14 +51,19 @@ namespace Consumer.Tests
 
         public static GithubService mockGithubService()
         {
-            var mockData = typeof(GithubServiceTest).Assembly.GetManifestResourceStream("Consumer.Tests.Data.testData.json");
+
             var mockMessageHandler = new Mock<HttpMessageHandler>();
             mockMessageHandler.Protected()
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
+            .ReturnsAsync(() =>
             {
+                var mockData = typeof(GithubServiceTest).Assembly.GetManifestResourceStream("Consumer.Tests.Data.testData.json");
+
+                return new HttpResponseMessage
+                {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StreamContent(mockData)
+                    Content = new StreamContent(mockData)
+                };
             });
             return new GithubService(new HttpClient(mockMessageHandler.Object));
         }
