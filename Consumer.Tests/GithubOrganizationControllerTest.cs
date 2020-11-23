@@ -2,8 +2,8 @@ using Consumer.Api.Services;
 using Consumer.API.Controllers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
+using Moq;
 using Xunit;
 
 namespace Consumer.Tests
@@ -12,6 +12,7 @@ namespace Consumer.Tests
     {
         private GithubService githubService = GithubServiceTest.mockGithubService();
         private GithubOrganizationController controller = createController();
+        private static Mock<IFeatureManager> featureManager = new Mock<IFeatureManager>();
 
 
         public static GithubOrganizationController createController()
@@ -20,16 +21,10 @@ namespace Consumer.Tests
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
                 .Build();
-            var services = new ServiceCollection();
-            services
-                .AddSingleton(configuration)
-                .AddFeatureManagement();
 
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            setupMemoryCacheFlagReturnValue(false);
 
-            IFeatureManager featureManager = serviceProvider.GetRequiredService<IFeatureManager>();
-
-            return new GithubOrganizationController(memoryCache, featureManager, configuration);
+            return new GithubOrganizationController(memoryCache, featureManager.Object, configuration);
         }
 
         [Fact]
@@ -42,9 +37,16 @@ namespace Consumer.Tests
         [Fact]
         public async void ControllerShouldReturnCachedResponse()
         {
+            setupMemoryCacheFlagReturnValue(true);
             var result = await controller.GetOrganizationRepositories(githubService, "ibm");
             var result2 = await controller.GetOrganizationRepositories(githubService, "ibm");
             Assert.Equal(result.Value, result2.Value);
+        }
+
+        private static void setupMemoryCacheFlagReturnValue(bool returnValue)
+        {
+            featureManager.Setup(m => m.IsEnabledAsync(It.IsAny<string>()))
+            .ReturnsAsync((string feature) => returnValue);
         }
     }
 }
