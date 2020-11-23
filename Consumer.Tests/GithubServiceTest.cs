@@ -22,7 +22,7 @@ namespace Consumer.Tests
             Assert.NotEmpty(result);
             foreach (var item in result)
             {
-                Assert.Empty(item.Name);
+                Assert.NotEqual(item.Name, string.Empty);
                 Assert.NotNull(item.GitHubHomeUrl);
                 Assert.NotNull(item.GitUrl);
             }
