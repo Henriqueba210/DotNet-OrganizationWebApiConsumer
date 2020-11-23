@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Text.Json;
+using Consumer.Api.Models;
 using Consumer.Api.Services;
 using Consumer.API.Controllers;
 using Microsoft.Extensions.Caching.Memory;
@@ -10,7 +13,7 @@ namespace Consumer.Tests
 {
     public class GithubOrganizationControllerTest
     {
-        private GithubService githubService = GithubServiceTest.mockGithubService();
+        private static Mock<IGithubService> githubService = new Mock<IGithubService>();
         private GithubOrganizationController controller = createController();
         private static Mock<IFeatureManager> featureManager = new Mock<IFeatureManager>();
         private static Mock<IConfiguration> configuration = new Mock<IConfiguration>();
@@ -23,13 +26,15 @@ namespace Consumer.Tests
 
             setupMemoryCacheDuration(30);
 
+            setupGithubServiceResponse("Consumer.Tests.Data.testData.json");
+
             return new GithubOrganizationController(memoryCache, featureManager.Object, configuration.Object);
         }
 
         [Fact]
         public async void AssertGetCallRunsCompletely()
         {
-            var result = await controller.GetOrganizationRepositories(githubService, "ibm");
+            var result = await controller.GetOrganizationRepositories(githubService.Object, "ibm");
             Assert.NotEmpty(result.Value);
         }
 
@@ -38,8 +43,8 @@ namespace Consumer.Tests
         {
             setupMemoryCacheFlagReturnValue(true);
             setupMemoryCacheDuration(30);
-            var result = await controller.GetOrganizationRepositories(githubService, "ibm");
-            var result2 = await controller.GetOrganizationRepositories(githubService, "ibm");
+            var result = await controller.GetOrganizationRepositories(githubService.Object, "ibm");
+            var result2 = await controller.GetOrganizationRepositories(githubService.Object, "ibm");
             Assert.Equal(result.Value, result2.Value);
         }
 
@@ -47,8 +52,8 @@ namespace Consumer.Tests
         public async void ControllerShouldNotReturnCachedResponse()
         {
             setupMemoryCacheFlagReturnValue(false);
-            var result = await controller.GetOrganizationRepositories(githubService, "ibm");
-            var result2 = await controller.GetOrganizationRepositories(githubService, "ibm");
+            var result = await controller.GetOrganizationRepositories(githubService.Object, "ibm");
+            var result2 = await controller.GetOrganizationRepositories(githubService.Object, "ibm");
             Assert.NotEqual(result.Value, result2.Value);
         }
 
@@ -65,6 +70,16 @@ namespace Consumer.Tests
             mockConfigurationSection.Setup(x => x.Value).Returns(duration.ToString());
             configuration.Setup(m => m.GetSection("FeatureManagement:CacheExpirationDuration"))
                 .Returns((string key) => mockConfigurationSection.Object);
+        }
+
+        private static void setupGithubServiceResponse(string mockDataResourceName)
+        {
+            githubService.Setup(m => m.getOrganizationRepositories(It.IsAny<string>()))
+                .Returns(() =>
+                {
+                    var mockData = typeof(GithubServiceTest).Assembly.GetManifestResourceStream(mockDataResourceName);
+                    return JsonSerializer.DeserializeAsync<List<GithubRepository>>(mockData).AsTask();
+                });
         }
     }
 }
