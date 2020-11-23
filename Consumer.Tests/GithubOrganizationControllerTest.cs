@@ -13,18 +13,17 @@ namespace Consumer.Tests
         private GithubService githubService = GithubServiceTest.mockGithubService();
         private GithubOrganizationController controller = createController();
         private static Mock<IFeatureManager> featureManager = new Mock<IFeatureManager>();
-
+        private static Mock<IConfiguration> configuration = new Mock<IConfiguration>();
 
         public static GithubOrganizationController createController()
         {
             var memoryCache = new MemoryCache(new MemoryCacheOptions());
-            IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
-                .Build();
 
             setupMemoryCacheFlagReturnValue(false);
 
-            return new GithubOrganizationController(memoryCache, featureManager.Object, configuration);
+            setupMemoryCacheDuration(30);
+
+            return new GithubOrganizationController(memoryCache, featureManager.Object, configuration.Object);
         }
 
         [Fact]
@@ -38,6 +37,7 @@ namespace Consumer.Tests
         public async void ControllerShouldReturnCachedResponse()
         {
             setupMemoryCacheFlagReturnValue(true);
+            setupMemoryCacheDuration(30);
             var result = await controller.GetOrganizationRepositories(githubService, "ibm");
             var result2 = await controller.GetOrganizationRepositories(githubService, "ibm");
             Assert.Equal(result.Value, result2.Value);
@@ -56,6 +56,15 @@ namespace Consumer.Tests
         {
             featureManager.Setup(m => m.IsEnabledAsync(It.IsAny<string>()))
             .ReturnsAsync((string feature) => returnValue);
+        }
+
+        private static void setupMemoryCacheDuration(double duration)
+        {
+            var mockConfigurationSection = new Mock<IConfigurationSection>();
+            mockConfigurationSection.Setup(x => x.Key).Returns("FeatureManagement:CacheExpirationDuration");
+            mockConfigurationSection.Setup(x => x.Value).Returns(duration.ToString());
+            configuration.Setup(m => m.GetSection("FeatureManagement:CacheExpirationDuration"))
+                .Returns((string key) => mockConfigurationSection.Object);
         }
     }
 }
