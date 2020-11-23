@@ -13,11 +13,14 @@ namespace Consumer.Tests
 {
     public class GithubServiceTest
     {
-        private GithubService githubService = mockGithubService();
+        private static Mock<HttpMessageHandler> mockMessageHandler = new Mock<HttpMessageHandler>();
+        private GithubService githubService = new GithubService(new HttpClient(mockMessageHandler.Object));
 
         [Fact]
         public async void isOrganizationResponseValid()
         {
+            setupSuccessfulHttpResponse();
+
             var result = await githubService.getOrganizationRepositories("ibm");
             Assert.NotEmpty(result);
             foreach (var item in result)
@@ -35,24 +38,15 @@ namespace Consumer.Tests
         [Fact]
         public async void testRequestError()
         {
-            var mockMessageHandler = new Mock<HttpMessageHandler>();
-            mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.ServiceUnavailable,
-            });
-            var githubService = new GithubService(new HttpClient(mockMessageHandler.Object));
+            setupServerUnavailableHttpResponse();
 
             await Assert.ThrowsAsync<HttpRequestException>(
                 async () => await githubService.getOrganizationRepositories("ibm")
             );
         }
 
-        public static GithubService mockGithubService()
+        private void setupSuccessfulHttpResponse()
         {
-
-            var mockMessageHandler = new Mock<HttpMessageHandler>();
             mockMessageHandler.Protected()
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(() =>
@@ -61,11 +55,20 @@ namespace Consumer.Tests
 
                 return new HttpResponseMessage
                 {
-                StatusCode = HttpStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Content = new StreamContent(mockData)
                 };
             });
-            return new GithubService(new HttpClient(mockMessageHandler.Object));
+        }
+
+        private void setupServerUnavailableHttpResponse()
+        {
+            mockMessageHandler.Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.ServiceUnavailable,
+            });
         }
     }
 }
