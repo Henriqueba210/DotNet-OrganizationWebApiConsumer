@@ -43,6 +43,15 @@ namespace Consumer.Tests
             Assert.Equal(result.Value, result2.Value);
         }
 
+        [Fact]
+        public async void ControllerShouldNotReturnCachedResponse()
+        {
+            setupMemoryCacheFlagReturnValue(false);
+            var result = await controller.GetOrganizationRepositories(githubService, "ibm");
+            var result2 = await controller.GetOrganizationRepositories(githubService, "ibm");
+            Assert.NotEqual(result.Value, result2.Value);
+        }
+
         private static void setupMemoryCacheFlagReturnValue(bool returnValue)
         {
             featureManager.Setup(m => m.IsEnabledAsync(It.IsAny<string>()))
