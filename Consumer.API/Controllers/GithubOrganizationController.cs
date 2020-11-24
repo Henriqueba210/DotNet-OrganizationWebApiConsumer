@@ -36,9 +36,14 @@ namespace Consumer.API.Controllers
             }
             return await cache.GetOrCreateAsync(OrganizationName, RepositoryList =>
             {
-                RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(configuration.GetValue<double>("FeatureManagement:CacheExpirationDuration"));
+                RepositoryList.SlidingExpiration = TimeSpan.FromSeconds(getCacheExpirationDuration());
                 return githubRepository.getOrganizationRepositories(OrganizationName);
             });
+        }
+
+        private double getCacheExpirationDuration()
+        {
+            return configuration.GetValue<double>("FeatureManagement:CacheExpirationDuration");
         }
 
         private async Task<bool> isMemoryCachingEnabledAsync()
