@@ -33,6 +33,13 @@ namespace Consumer.Tests
             Assert.NotNull(result.Any(item => item.Watchers != 0));
             Assert.NotNull(result.Any(item => item.OpenIssues != 0));
             Assert.NotNull(result.Any(item => item.Description != null));
+
+            mockMessageHandler.Protected().Verify(
+                "SendAsync",
+                Times.Once(),
+                ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
+                ItExpr.IsAny<CancellationToken>()
+            );
         }
 
         [Fact]
