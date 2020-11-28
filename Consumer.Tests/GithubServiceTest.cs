@@ -6,13 +6,17 @@ using Moq.Protected;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net;
+using Microsoft.Extensions.Logging;
+using Consumer.Api.Models;
+using System;
 
 namespace Consumer.Tests
 {
     public class GithubServiceTest
     {
         private static Mock<HttpMessageHandler> mockMessageHandler = new Mock<HttpMessageHandler>();
-        private GithubService githubService = new GithubService(new HttpClient(mockMessageHandler.Object));
+        private static Mock<ILogger<GithubService>> mockLogger = new Mock<ILogger<GithubService>>();
+        private GithubService githubService = new GithubService(new HttpClient(mockMessageHandler.Object), mockLogger.Object);
 
         [Fact]
         public async void isOrganizationResponseValid()
@@ -45,8 +49,12 @@ namespace Consumer.Tests
         {
             setupServerUnavailableHttpResponse();
 
-            await Assert.ThrowsAsync<HttpRequestException>(
-                async () => await githubService.getOrganizationRepositories("ibm")
+            await Assert.ThrowsAsync<HttpStatusException>(
+                async () =>
+                {
+                    await githubService.getOrganizationRepositories("ibm");
+                    mockLogger.Verify(mock => mock.LogError(It.IsAny<EventId>(), It.IsAny<Exception>(), It.IsAny<string>()), Times.Once());
+                }
             );
         }
 
