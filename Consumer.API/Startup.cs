@@ -8,6 +8,10 @@ using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
 using Consumer.Api.Services;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Text.Json;
+using Consumer.Api.Models;
 
 namespace Consumer.API
 {
@@ -40,7 +44,10 @@ namespace Consumer.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+
+                app.UseExceptionHandler(
+                    new ExceptionHandlerOptions { AllowStatusCode404Response = true, ExceptionHandlingPath = "/error" }
+                );
                 app.UseSwagger(c =>
                 {
                     c.PreSerializeFilters.Add((swagger, httpReq) =>
