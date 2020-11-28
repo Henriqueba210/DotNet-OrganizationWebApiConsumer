@@ -6,8 +6,6 @@ using Moq.Protected;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Consumer.Tests
 {
@@ -29,10 +27,10 @@ namespace Consumer.Tests
                 Assert.NotNull(item.GitHubHomeUrl);
                 Assert.NotNull(item.GitUrl);
             }
-            Assert.NotNull(result.Any(item => item.Homepage != null));
-            Assert.NotNull(result.Any(item => item.Watchers != 0));
-            Assert.NotNull(result.Any(item => item.OpenIssues != 0));
-            Assert.NotNull(result.Any(item => item.Description != null));
+            Assert.Contains(result, item => item.Homepage != null);
+            Assert.Contains(result, item => item.Watchers != 0);
+            Assert.Contains(result, item => item.OpenIssues != 0);
+            Assert.Contains(result, item => item.Description != null);
 
             mockMessageHandler.Protected().Verify(
                 "SendAsync",
